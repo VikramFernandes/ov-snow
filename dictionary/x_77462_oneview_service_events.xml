@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element extends="cmdb_ci_server" label="OneView Service Events" max_length="40" name="x_77462_oneview_service_events" type="collection"/>
+</database>
