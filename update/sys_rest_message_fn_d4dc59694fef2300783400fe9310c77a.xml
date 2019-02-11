@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_rest_message_fn">
+    <sys_rest_message_fn action="INSERT_OR_UPDATE">
+        <authentication_type>inherit_from_parent</authentication_type>
+        <basic_auth_password/>
+        <basic_auth_profile/>
+        <basic_auth_user/>
+        <content>{&#13;
+    "authLoginDomain":"local",&#13;
+    "password":"Ucarising1",&#13;
+    "userName":"Administrator",&#13;
+    "loginMsgAck":"true"&#13;
+}</content>
+        <function_name>OV-Token</function_name>
+        <http_method>post</http_method>
+        <lock>false</lock>
+        <oauth2_profile/>
+        <protocol_name/>
+        <qualified_name>login-sessions [ OV-Token ]</qualified_name>
+        <rest_endpoint>https://15.244.150.229/rest/login-sessions</rest_endpoint>
+        <rest_message display_value="login-sessions">b78a51294fef2300783400fe9310c7f9</rest_message>
+        <sys_class_name>sys_rest_message_fn</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-02-10 16:58:56</sys_created_on>
+        <sys_id>d4dc59694fef2300783400fe9310c77a</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>OV-Token</sys_name>
+        <sys_package display_value="OneView" source="x_77462_oneview">3de851254faf2300783400fe9310c72b</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="OneView">3de851254faf2300783400fe9310c72b</sys_scope>
+        <sys_update_name>sys_rest_message_fn_d4dc59694fef2300783400fe9310c77a</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-02-11 19:42:20</sys_updated_on>
+        <use_basic_auth>false</use_basic_auth>
+        <use_mid_server display_value="PC">7c9b25254f236300783400fe9310c7f5</use_mid_server>
+        <use_mutual_auth>false</use_mutual_auth>
+    </sys_rest_message_fn>
+</record_update>

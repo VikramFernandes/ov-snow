@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element extends="sys_import_set_row" label="import-ov" max_length="40" name="x_77462_oneview_import_ov" type="collection">
+        <element attributes="import_attribute_name=Assettag,edge_encryption_enabled=true" label="Assettag" max_length="40" name="u_assettag" type="string"/>
+        <element attributes="import_attribute_name=Company,edge_encryption_enabled=true" label="Company" max_length="40" name="u_company" type="string"/>
+        <element attributes="import_attribute_name=CPU core count,edge_encryption_enabled=true" label="CPU core count" max_length="40" name="u_cpu_core_count" type="string"/>
+        <element attributes="import_attribute_name=CPU count,edge_encryption_enabled=true" label="CPU count" max_length="40" name="u_cpu_count" type="string"/>
+        <element attributes="import_attribute_name=CPU manufacturer,edge_encryption_enabled=true" label="CPU manufacturer" max_length="40" name="u_cpu_manufacturer" type="string"/>
+        <element attributes="import_attribute_name=CPU speed(MHz),edge_encryption_enabled=true" label="CPU speed(MHz)" max_length="40" name="u_cpu_speed_mhz_" type="string"/>
+        <element attributes="import_attribute_name=CPU type,edge_encryption_enabled=true" label="CPU type" max_length="41" name="u_cpu_type" type="string"/>
+        <element attributes="import_attribute_name=Manufacturer,edge_encryption_enabled=true" label="Manufacturer" max_length="40" name="u_manufacturer" type="string"/>
+        <element attributes="import_attribute_name=ModelID,edge_encryption_enabled=true" label="ModelID" max_length="40" name="u_modelid" type="string"/>
+        <element attributes="import_attribute_name=Name,edge_encryption_enabled=true" label="Name" max_length="40" name="u_name" type="string"/>
+        <element attributes="import_attribute_name=RAM,edge_encryption_enabled=true" label="RAM" max_length="40" name="u_ram" type="string"/>
+        <element attributes="import_attribute_name=Serial number,edge_encryption_enabled=true" label="Serial number" max_length="40" name="u_serial_number" type="string"/>
+    </element>
+</database>
