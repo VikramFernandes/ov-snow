@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="OneView Config" max_length="40" name="x_77462_oneview_oneview_config" type="collection">
+        <element label="OneView-URL" max_length="40" name="oneview_url" type="string"/>
+        <element display="true" label="Password" max_length="40" name="password" type="string"/>
+        <element label="Username" max_length="40" name="username" type="string"/>
+    </element>
+</database>

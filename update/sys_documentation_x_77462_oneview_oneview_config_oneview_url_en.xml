@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_documentation element="oneview_url" label="OneView-URL" language="en" table="x_77462_oneview_oneview_config">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>oneview_url</element>
+            <help/>
+            <hint/>
+            <label>OneView-URL</label>
+            <language>en</language>
+            <name>x_77462_oneview_oneview_config</name>
+            <plural>OneView-URLs</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2019-02-12 17:34:34</sys_created_on>
+            <sys_id>22a97bc24feba300783400fe9310c7b8</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>OneView-URL</sys_name>
+            <sys_package display_value="OneView" source="x_77462_oneview">3de851254faf2300783400fe9310c72b</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="OneView">3de851254faf2300783400fe9310c72b</sys_scope>
+            <sys_update_name>sys_documentation_x_77462_oneview_oneview_config_oneview_url_en</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2019-02-12 17:34:34</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

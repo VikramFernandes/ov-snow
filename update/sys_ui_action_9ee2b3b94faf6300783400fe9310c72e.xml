@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_ui_action">
     <sys_ui_action action="INSERT_OR_UPDATE">
-        <action_name/>
+        <action_name>u_ConnectOneview</action_name>
         <active>true</active>
-        <client>true</client>
+        <client>false</client>
         <client_script_v2/>
         <comments/>
         <condition/>
@@ -36,41 +36,19 @@ if(typeof window == 'undefined')
 
 function u_connect()
 {
-	
-	answer = current.insert();
+	sys_id = current.sys_id;
+	//answer = current.insert();
 	
 	// Update a new record into Incident table
-	sys_id = update_record_incident();
+	// sys_id = update_record_incident();
 	
-	// Get list of servers present in OneView
-	responseBody = get_server_list();
+	/*Get list of servers present in OneView */
+	//responseBody = get_server_list();
+	//update_cmdb_ci(responseBody);	
 	
-	var parse_body = JSON.parse(responseBody);
-	gs.info("No of servers availble in OneView: " + ' ' + parse_body.count);
-	count = parse_body.count;
-	
-	i = 0;
-	while (i < count)
-	{
-		gs.info("Model ID: " + ' ' + parse_body.members[i].model);
-		gs.info("Server name: " + ' ' + parse_body.members[i].name);
-		gs.info("Memory in MB: " + ' ' + parse_body.members[i].memoryMb);
-	
-		model = parse_body.members[i].model;
-		server_name = parse_body.members[i].name;  
-		memory = parse_body.members[i].memoryMb;                   
-	
-		model ='\"'+model+'\"';
-		server_name ='\"'+server_name+'\"';                        
-		memory = '\"'+memory+'\"';
-		var body = '{"model_id":'+model+',"name":'+server_name+',"ram":'+memory+'}';
-		
-		// Add server details to CMDB cmdb_ci_server table
-		create_record_to_server(body);
-	    i = i + 1;
-	}
-	// Update server's health attribute(alert) to Incident table
-	update_health_status_incident(sys_id);
+	/*Update server's health attribute(alert) to Incident table*/	
+	//update_health_status_incident(sys_id);
+	update_service_events_incident(sys_id);
 }
 
 
@@ -93,7 +71,7 @@ function update_health_status_incident(sys_id)
 	var request = new sn_ws.RESTMessageV2();
 	request.setHttpMethod('GET');			
 	request.setEndpoint(oneViewUri + '/rest/alerts?start=0&count=-1');
-	request.setRequestHeader("X-Api-Version","1000");
+	request.setRequestHeader("X-Api-Version","800");
 	request.setRequestHeader("auth",auth);
 	request.setMIDServer(midserver);
 	request.setEccParameter('skip_sensor', true);
@@ -174,15 +152,15 @@ function update_record_incident()
 // Get OneView and SNOW credentials
 function get_credentials()
 {
-	var oneViewUri = "https://15.186.20.58";
-	var oneViewUser = "administrator";
-	var oneViewPassword = "Password123";
+	var oneViewUri = "https://15.244.150.229";
+	var oneViewUser = "Administrator";
+	var oneViewPassword = "Ucarising1";
 	
 	/* ServiceNow credentials */
-	var SnowUri = 'https://dev18365.service-now.com/api/now/table/';
+	var SnowUri = 'https://dev50903.service-now.com/api/now/table/';
 	var SnowUser = 'admin';
-	var SnowPassword = 'Nowservice@531982;';
-	var midserver = "Windows_Midserver_austin";
+	var SnowPassword = 'GSEteam1#';
+	var midserver = "Windows_Mid_Server_Desktop";
 
 	var credentials = [];
 	credentials.push(oneViewUri);
@@ -248,7 +226,7 @@ function get_server_list()
 			var request = new sn_ws.RESTMessageV2();
 			request.setHttpMethod('GET');			
 			request.setEndpoint(oneViewUri+'/rest/server-hardware?start=0&count=-1');
-			request.setRequestHeader("X-Api-Version","1000");
+			request.setRequestHeader("X-Api-Version","800");
 		    request.setRequestHeader("auth",auth);
 			request.setMIDServer(midserver);
 			request.setEccParameter('skip_sensor', true);
@@ -335,19 +313,196 @@ function update_incident(sys_id, body)
 }
 
 
+function update_cmdb_ci(responseBody)
+{
+	var parse_body = JSON.parse(responseBody);
+	gs.info("No of servers availble in OneView: " + ' ' + parse_body.count);
+	count = parse_body.count;
+	
+	i = 0;
+	while (i < count)
+	{
+		gs.info("Model ID: " + ' ' + parse_body.members[i].model);
+		gs.info("Server name: " + ' ' + parse_body.members[i].name);
+		gs.info("Memory in MB: " + ' ' + parse_body.members[i].memoryMb);
+		gs.info("UUID " +' '+ parse_body.members[i].uuid );
+		gs.info("Serial Number " +' '+ parse_body.members[i].serialNumber);
+	
+		model = parse_body.members[i].model;
+		server_name = parse_body.members[i].name;  
+		memory = parse_body.members[i].memoryMb; 
+		uuid = parse_body.members[i].uuid;
+		serial_number = parse_body.members[i].serialNumber;
+		manufacturer = "Hewlett Packard Enterprise";
+		processorType = parse_body.members[i].processorType;
+		processorSpeedMhz = parse_body.members[i].processorSpeedMhz;
+		processorCoreCount = parse_body.members[i].processorCoreCount;
+		processorCount = parse_body.members[i].processorCount;
+	
+		model ='\"'+model+'\"';
+		server_name ='\"'+server_name+'\"';                        
+		memory = '\"'+memory+'\"';
+		uuid = '\"'+uuid+'\"';
+		serial_number = '\"'+serial_number+'\"';
+		processorType = '\"'+processorType+'\"';
+		processorSpeedMhz = '\"'+processorSpeedMhz+'\"';
+		processorCoreCount = '\"'+processorCoreCount+'\"';		
+		manufacturer = '\"'+manufacturer+'\"';
+		
+		var body = '{"model_id":'+model+',"name":'+server_name+',"ram":'+memory+',"asset_tag":'+uuid+', "serialNumber":'+serialNumber+', "manufacturer": '+manufacturer+', "processorType": '+processorType+', "processorSpeedMhz": '+processorSpeedMhz+', "processorCoreCount":'+processorCoreCount+', "processorCount":'+processorCount+'}';
+		
+		// Add server details to CMDB cmdb_ci_server table
+		create_record_to_server(body);
+	    i = i + 1;
+	}	
+}
+
+
+function get_configuration_item(sys_id, SnowUri, SnowUser, SnowPassword)
+{
+	    /*
+        var credentials = [];
+	    credentials = get_credentials();
+		*/
+	
+		/* ServiceNow credentials */
+	    /*
+		var SnowUri = credentials[3];
+        var SnowUser = credentials[4];
+        var SnowPassword = credentials[5];        
+		*/
+
+		var request = new sn_ws.RESTMessageV2();
+		request.setHttpMethod('GET');
+		request.setBasicAuth(SnowUser,SnowPassword);
+                request.setEndpoint(SnowUri + 'incident' + '/' + sys_id);
+		request.setRequestHeader("Content-Type","application/json");	
+		var response = request.execute();
+		var response_body = response.getBody();                
+        gs.info(response_body);
+		var json = JSON.parse(response_body);
+        //gs.info(json.result['cmdb_ci'].link); 
+	    cmdb_ci = json.result['cmdb_ci'].link; 
+        return cmdb_ci;
+
+}
+
+function get_asset_tag(config_item, SnowUri, SnowUser, SnowPassword)
+{
+	    /*
+        var credentials = [];
+	    credentials = get_credentials();
+		*/
+	
+		/* ServiceNow credentials */
+	    /*
+		var SnowUri = credentials[3];
+        var SnowUser = credentials[4];
+        var SnowPassword = credentials[5];        
+		*/
+
+		var request = new sn_ws.RESTMessageV2();
+		request.setHttpMethod('GET');
+		request.setBasicAuth(SnowUser,SnowPassword);
+                request.setEndpoint(config_item);
+		request.setRequestHeader("Content-Type","application/json");	
+		var response = request.execute();
+		var response_body = response.getBody();                                
+		var json = JSON.parse(response_body);
+        //gs.info(json.result['cmdb_ci'].link); 
+        return json.result['asset_tag'];
+
+}
+
+function get_alerts(asset_tag, sys_id, oneViewUri, oneViewUser, oneViewPassword, midserver)
+{
+	/*
+    var credentials = [];
+	credentials = get_credentials();
+	var oneViewUri = credentials[0];
+    var oneViewUser = credentials[1];
+    var oneViewPassword = credentials[2];
+	var midserver = credentials[6];
+	*/
+	auth = get_oneview_auth();	
+
+    var option = "description like 'Service*'";
+    optional ='\"'+option+'\"';
+	
+	var request = new sn_ws.RESTMessageV2();
+	request.setHttpMethod('GET');			
+	request.setEndpoint(oneViewUri + '/rest/alerts?query='  + encodeURI(option));
+	request.setRequestHeader("X-Api-Version","800");
+	request.setRequestHeader("auth",auth);
+	request.setMIDServer(midserver);
+	request.setEccParameter('skip_sensor', true);
+	var response = request.execute();
+	var response_body = response.getBody();
+	var httpStatus = response.getStatusCode();
+	var json = JSON.parse(response_body);
+     gs.info(json.count);        
+     var i = 0;
+     while ( i < json.count)
+     {
+        resource_uri = json.members[i].resourceUri;
+        gs.info(resource_uri);
+
+        var n = resource_uri.includes(asset_tag);
+        gs.info(n);
+        if (String(n) == "true")
+        {           
+           //gs.info(JSON.stringify(json.members[i].serviceEventDetails, null, 2));           
+           service_events = "serviceEventDetails" + ':' + JSON.stringify(json.members[i].serviceEventDetails, null, 2);
+           gs.info(service_events);           
+           
+           var work_notes = JSON.stringify(service_events);
+	   var body = '{"work_notes":'+work_notes+'}';
+	   update_incident(sys_id, body);           
+           
+        }
+        else
+          gs.info("No Service Events found");
+       i = i + 1;
+      }  
+}
+
+
+function update_service_events_incident(sys_id)
+{
+	  var credentials = [];
+	  credentials = get_credentials();
+	
+	  var oneViewUri = credentials[0];
+      var oneViewUser = credentials[1];
+      var oneViewPassword = credentials[2];
+	  /* ServiceNow credentials */
+	  var SnowUri = credentials[3];
+      var SnowUser = credentials[4];
+      var SnowPassword = credentials[5]; 
+	  var midserver = credentials[6];
+	
+	  
+	  config_item = get_configuration_item(sys_id, SnowUri, SnowUser, SnowPassword); 
+	  gs.info("Configuration Item: " + '' +config_item);
+      asset_tag = get_asset_tag(config_item, SnowUri, SnowUser, SnowPassword);
+      gs.info("Asset tag: " + ''+ asset_tag);
+      get_alerts(asset_tag, sys_id, oneViewUri, oneViewUser, oneViewPassword, midserver);
+}
+
+
 
 ]]></script>
-        <show_insert>true</show_insert>
+        <show_insert>false</show_insert>
         <show_multiple_update>false</show_multiple_update>
         <show_query>false</show_query>
-        <show_update>false</show_update>
+        <show_update>true</show_update>
         <sys_class_name>sys_ui_action</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-02-11 22:32:40</sys_created_on>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>9ee2b3b94faf6300783400fe9310c72e</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>20</sys_mod_count>
         <sys_name>Connect OneView</sys_name>
         <sys_overrides/>
         <sys_package display_value="OneView" source="x_77462_oneview">3de851254faf2300783400fe9310c72b</sys_package>
@@ -355,7 +510,7 @@ function update_incident(sys_id, body)
         <sys_scope display_value="OneView">3de851254faf2300783400fe9310c72b</sys_scope>
         <sys_update_name>sys_ui_action_9ee2b3b94faf6300783400fe9310c72e</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-02-11 22:32:40</sys_updated_on>
+        <sys_updated_on>2019-02-13 09:36:54</sys_updated_on>
         <table>incident</table>
         <ui11_compatible>true</ui11_compatible>
         <ui16_compatible>false</ui16_compatible>
